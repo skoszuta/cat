@@ -16,11 +16,20 @@ export default {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false,
+            },
+          },
+          'sass-loader',
+        ],
       },
     ],
   },
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   devServer: {
     static: path.join(__dirname, 'public'),
   },
