@@ -1,19 +1,20 @@
 import './styles.scss'
-import '@tensorflow/tfjs-backend-webgl'
-import * as poseDetection from '@tensorflow-models/pose-detection'
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-wasm'
+import * as blazeface from '@tensorflow-models/blazeface'
 import Scene from './components/scene/scene'
 import loadImageAsync from './services/loadImageAsync'
 
 const CAMERA_CONFIG = {
   audio: false,
-  video: { width: 360, height: 270 }
+  video: { width: 320, height: 240 }
 }
 
 const state = {
   detector: null,
   stream: null,
   imageCapture: null,
-  poses: null,
+  predictions: null,
   images: {
     head: null,
     pupil: null,
@@ -24,8 +25,8 @@ async function run() {
   requestAnimationFrame(run)
 
   const imageBitmap = await state.imageCapture.grabFrame()
-  const poses = await state.detector.estimatePoses(imageBitmap)
-  state.poses = poses
+  const predictions = await state.detector.estimateFaces(imageBitmap)
+  state.predictions = predictions
 
   Scene.draw(state)
 }
@@ -36,8 +37,7 @@ async function main() {
 
   Scene.init(state)
 
-  const model = poseDetection.SupportedModels.MoveNet
-  const detector = await poseDetection.createDetector(model)
+  const detector = await blazeface.load()
   const stream = await navigator.mediaDevices.getUserMedia(CAMERA_CONFIG)
   const imageCapture = new ImageCapture(stream.getVideoTracks()[0])
 
@@ -48,4 +48,4 @@ async function main() {
   requestAnimationFrame(run)
 }
 
-main()
+tf.setBackend('wasm').then(() => main());
