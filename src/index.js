@@ -6,12 +6,7 @@ import loadImageAsync from './services/loadImageAsync'
 
 const CAMERA_CONFIG = {
   audio: false,
-  video: {
-    facingMode: 'user',
-    width: 640,
-    height: 480,
-    frameRate: 60,
-  },
+  video: true
 }
 
 const state = {
@@ -26,17 +21,13 @@ const state = {
 }
 
 async function run() {
-  if (state.imageCapture.track.muted) {
-    return
-  }
+  requestAnimationFrame(run)
 
   const imageBitmap = await state.imageCapture.grabFrame()
   const poses = await state.detector.estimatePoses(imageBitmap)
   state.poses = poses
 
   Scene.draw(state)
-
-  requestAnimationFrame(run)
 }
 
 async function main() {

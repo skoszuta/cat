@@ -36,7 +36,7 @@ const Scene = {
     const gazeOffsetY =
       signumY * noseYVsCenter * noseYVsCenter * MAX_GAZE_OFFSET_Y
 
-    positionPupils(gazeOffsetX, gazeOffsetY)
+    positionPupils(-gazeOffsetX, gazeOffsetY)
 
     if (Math.abs(noseXVsCenter) <= 0.3) {
       const leftEarPosition = state.poses[0].keypoints[LEFT_EAR_POSE_CODE]
@@ -47,7 +47,7 @@ const Scene = {
           leftEarPosition.x - rightEarPosition.x
         ) *
           180) /
-        Math.PI
+        Math.PI * -1
       rotateHead(headAngle)
     } else {
       rotateHead()
