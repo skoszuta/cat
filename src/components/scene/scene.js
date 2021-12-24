@@ -22,8 +22,6 @@ const Scene = {
       return
     }
 
-    console.log(state.poses[0].keypoints)
-
     const nosePosition = state.poses[0].keypoints[NOSE_POSE_CODE]
 
     const noseXVsCenter = (nosePosition.x - 320) / 320
