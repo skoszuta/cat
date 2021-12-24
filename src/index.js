@@ -6,7 +6,7 @@ import loadImageAsync from './services/loadImageAsync'
 
 const CAMERA_CONFIG = {
   audio: false,
-  video: true
+  video: { width: 360, height: 270 }
 }
 
 const state = {
@@ -31,6 +31,11 @@ async function run() {
 }
 
 async function main() {
+  state.images.head = await loadImageAsync('head.svg')
+  state.images.pupil = await loadImageAsync('pupil.svg')
+
+  Scene.init(state)
+
   const model = poseDetection.SupportedModels.MoveNet
   const detector = await poseDetection.createDetector(model)
   const stream = await navigator.mediaDevices.getUserMedia(CAMERA_CONFIG)
@@ -39,10 +44,6 @@ async function main() {
   state.detector = detector
   state.stream = stream
   state.imageCapture = imageCapture
-  state.images.head = await loadImageAsync('head.svg')
-  state.images.pupil = await loadImageAsync('pupil.svg')
-
-  Scene.init(state)
 
   requestAnimationFrame(run)
 }

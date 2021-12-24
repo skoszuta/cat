@@ -10,6 +10,7 @@ const MAX_GAZE_OFFSET_Y = 0.03
 
 const Scene = {
   headContainer: document.createElement('div'),
+  headline: document.createElement('div'),
   head: null,
   leftPupil: null,
   rightPupil: null,
@@ -54,6 +55,8 @@ const Scene = {
   init(state) {
     Scene.currentState = state
 
+    document.title = 'Merry Christmas!'
+
     Scene.headContainer.classList.add('head-container')
     document.body.appendChild(Scene.headContainer)
 
@@ -73,11 +76,19 @@ const Scene = {
 
     positionPupils()
 
+    Scene.headline.classList.add('headline')
+    document.body.appendChild(Scene.headline)
+    Scene.headline.innerText = 'Merry Christmas!'
+
     window.addEventListener('resize', () => requestAnimationFrame(Scene.draw))
   },
 }
 
 function positionPupils(offsetX = 0, offsetY = 0) {
+  if (offsetX > MAX_GAZE_OFFSET_X || offsetX < -MAX_GAZE_OFFSET_X) {
+    offsetX = offsetX > 0 ? MAX_GAZE_OFFSET_X : -MAX_GAZE_OFFSET_X;
+  }
+
   Scene.leftPupil.style.left = `${
     Scene.head.offsetLeft +
     Scene.head.width * (LEFT_PUPIL_INITIAL_OFFSET_X_PERCENT + offsetX)
