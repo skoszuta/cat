@@ -6,7 +6,7 @@ import loadImageAsync from './services/loadImageAsync'
 
 const CAMERA_CONFIG = {
   audio: false,
-  video: true
+  video: { width: 360, height: 270 }
 }
 
 const state = {

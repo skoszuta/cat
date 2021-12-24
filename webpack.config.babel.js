@@ -2,7 +2,7 @@ import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export default {
-  mode: 'development',
+  mode: 'production',
   entry: './src',
   output: {
     filename: 'bundle.js',
@@ -29,7 +29,7 @@ export default {
       },
     ],
   },
-  devtool: 'eval-source-map',
+  // devtool: 'eval-source-map',
   devServer: {
     static: path.join(__dirname, 'public'),
   },

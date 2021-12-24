@@ -13,10 +13,25 @@ body {
   overflow: hidden;
 }
 
+.headline {
+  position: absolute;
+  text-align: center;
+  font-size: 10vw;
+  bottom: 5vh;
+  animation: color-change 1s infinite;
+  text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+}
+
+@keyframes color-change {
+  0% { color: red; }
+  50% { color: blue; }
+  100% { color: green; }
+}
+
 .head-container {
   display: inline-block;
-  height: 100%;
-  transition: transform 0.3s ease-in-out;
+  height: 70vh;
+  transition: transform 0.5s ease-in-out;
 }
 
 .svg-head {
