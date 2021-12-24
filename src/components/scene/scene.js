@@ -2,8 +2,8 @@ const LEFT_PUPIL_INITIAL_OFFSET_X_PERCENT = 0.315
 const RIGHT_PUPIL_INITIAL_OFFSET_X_PERCENT = 0.665
 const PUPIL_INITIAL_OFFSET_Y_PERCENT = 0.455
 const PUPIL_TO_HEAD_WIDTH_RATIO = 0.05
-const NOSE_POSE_CODE = 0
-const LEFT_EAR_POSE_CODE = 3
+const NOSE_POSE_CODE = 2
+const LEFT_EAR_POSE_CODE = 5
 const RIGHT_EAR_POSE_CODE = 4
 const MAX_GAZE_OFFSET_X = 0.05
 const MAX_GAZE_OFFSET_Y = 0.03
@@ -18,32 +18,34 @@ const Scene = {
   draw(state = Scene.currentState) {
     Scene.currentState = state
 
-    if (!state.poses || !state.poses.length) {
+    if (!state.predictions || !state.predictions.length) {
       positionPupils()
       return
     }
 
-    const nosePosition = state.poses[0].keypoints[NOSE_POSE_CODE]
+    const nosePosition = state.predictions[0].landmarks[NOSE_POSE_CODE]
 
-    const noseXVsCenter = (nosePosition.x - 320) / 320
-    const signumX = noseXVsCenter > 0 ? 1 : -1
+    console.log(nosePosition[0]);
+
+    const noseXVsCenter = (nosePosition[0] - 160) / 320
+    // const signumX = noseXVsCenter > 0 ? 1 : -1
     const gazeOffsetX =
-      signumX * noseXVsCenter * noseXVsCenter * MAX_GAZE_OFFSET_X
+      noseXVsCenter * MAX_GAZE_OFFSET_X
 
-    const noseYVsCenter = (nosePosition.y - 240) / 240
-    const signumY = noseYVsCenter > 0 ? 1 : -1
+    const noseYVsCenter = (nosePosition[1] - 120) / 240
+    // const signumY = noseYVsCenter > 0 ? 1 : -1
     const gazeOffsetY =
-      signumY * noseYVsCenter * noseYVsCenter * MAX_GAZE_OFFSET_Y
+      noseYVsCenter * MAX_GAZE_OFFSET_Y
 
     positionPupils(-gazeOffsetX, gazeOffsetY)
 
     if (Math.abs(noseXVsCenter) <= 0.3) {
-      const leftEarPosition = state.poses[0].keypoints[LEFT_EAR_POSE_CODE]
-      const rightEarPosition = state.poses[0].keypoints[RIGHT_EAR_POSE_CODE]
+      const leftEarPosition = state.predictions[0].landmarks[LEFT_EAR_POSE_CODE]
+      const rightEarPosition = state.predictions[0].landmarks[RIGHT_EAR_POSE_CODE]
       const headAngle =
         (Math.atan2(
-          leftEarPosition.y - rightEarPosition.y,
-          leftEarPosition.x - rightEarPosition.x
+          leftEarPosition[1] - rightEarPosition[1],
+          leftEarPosition[0] - rightEarPosition[0]
         ) *
           180) /
         Math.PI * -1
