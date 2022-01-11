@@ -22,6 +22,10 @@ const Scene = {
       return
     }
 
+    if (state.poses[0].score < 0.4) {
+      return
+    }
+
     const nosePosition = state.poses[0].keypoints[NOSE_POSE_CODE]
 
     const noseXVsCenter = (nosePosition.x - 320) / 320
@@ -40,12 +44,13 @@ const Scene = {
       const leftEarPosition = state.poses[0].keypoints[LEFT_EAR_POSE_CODE]
       const rightEarPosition = state.poses[0].keypoints[RIGHT_EAR_POSE_CODE]
       const headAngle =
-        (Math.atan2(
+        ((Math.atan2(
           leftEarPosition.y - rightEarPosition.y,
           leftEarPosition.x - rightEarPosition.x
         ) *
           180) /
-        Math.PI * -1
+          Math.PI) *
+        -1
       rotateHead(headAngle)
     } else {
       rotateHead()
