@@ -1,4 +1,5 @@
 import './styles.scss'
+import 'image-capture'
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-wasm'
 import * as blazeface from '@tensorflow-models/blazeface'

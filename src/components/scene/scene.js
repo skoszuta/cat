@@ -25,7 +25,7 @@ const Scene = {
 
     const nosePosition = state.predictions[0].landmarks[NOSE_POSE_CODE]
 
-    console.log(nosePosition[0]);
+    // console.log(nosePosition[0]);
 
     const noseXVsCenter = (nosePosition[0] - 160) / 320
     // const signumX = noseXVsCenter > 0 ? 1 : -1

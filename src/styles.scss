@@ -31,11 +31,13 @@ body {
 .head-container {
   display: inline-block;
   height: 70vh;
+  max-width: 90vw;
   transition: transform 0.5s ease-in-out;
 }
 
 .svg-head {
   height: 100%;
+  max-width: 100%;
 }
 
 .svg-left-pupil {
